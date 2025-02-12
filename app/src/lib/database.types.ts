@@ -12,26 +12,33 @@ export type Database = {
       answers: {
         Row: {
           created_at: string
-          description: string
           id: number
+          option_id: number
           poll_id: number
           student_record: string
         }
         Insert: {
           created_at?: string
-          description: string
           id?: number
+          option_id: number
           poll_id: number
           student_record: string
         }
         Update: {
           created_at?: string
-          description?: string
           id?: number
+          option_id?: number
           poll_id?: number
           student_record?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "answers_option_id_fkey"
+            columns: ["option_id"]
+            isOneToOne: false
+            referencedRelation: "option"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "answers_poll_id_fkey"
             columns: ["poll_id"]

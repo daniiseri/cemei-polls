@@ -4,7 +4,7 @@ import { pollSchema, PollState } from "./definitions"
 export async function pollAction(state: PollState, formData: FormData) {
   const validatedFields = pollSchema.safeParse({
     pollId: formData.get('pollId'),
-    description: formData.get('description'),
+    optionId: formData.get('optionId'),
     studentRecord: formData.get('studentRecord')
   })
 
@@ -14,13 +14,13 @@ export async function pollAction(state: PollState, formData: FormData) {
     }
   }
 
-  const { description, studentRecord, pollId } = validatedFields.data
+  const { optionId, studentRecord, pollId } = validatedFields.data
 
   try {
     const { error } = await supabase
       .from('answers')
       .insert([{
-        description,
+        option_id: Number(optionId),
         student_record: studentRecord,
         poll_id: Number(pollId)
       }])

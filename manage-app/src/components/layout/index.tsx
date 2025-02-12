@@ -5,7 +5,7 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div>
       <SideMenu />
-      <div className="px-4 py-6">
+      <div className="px-4 py-6 h-screen">
         {children}
       </div>
     </div>

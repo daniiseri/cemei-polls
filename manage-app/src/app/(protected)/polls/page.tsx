@@ -5,6 +5,7 @@ import { toPtBR } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Poll = {
   id: number
@@ -14,6 +15,7 @@ type Poll = {
 
 export default function Polls() {
   const [polls, setPolls] = useState<Poll[]>()
+  const router = useRouter()
 
   useEffect(() => {
     const supabase = createClient()
@@ -63,6 +65,10 @@ export default function Polls() {
     }
   }, [])
 
+  function openPollDetail(pollId: number) {
+    router.push(`/polls/${pollId}`)
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between">
@@ -84,7 +90,7 @@ export default function Polls() {
           <tbody className="text-center">
             {
               polls?.map(({ id, created_at, description }) => (
-                <tr key={id} className="odd:bg-zinc-50 h-11">
+                <tr onClick={() => openPollDetail(id)} key={id} className="odd:bg-zinc-50 h-11 cursor-pointer hover:text-lg">
                   <td>{id}</td>
                   <td>{description}</td>
                   <td>{toPtBR(created_at)}</td>

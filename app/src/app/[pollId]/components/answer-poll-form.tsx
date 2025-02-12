@@ -1,19 +1,39 @@
 'use client'
 
-import { useActionState, useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { Option } from "@/components/option"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2, Terminal } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { pollAction } from "../actions"
+import { Tables } from "@/lib/database.types"
+import { supabase } from "@/lib/supabase"
 
 type AnswerPollFormProps = {
   pollId: string
 }
+
+type Poll = Pick<Tables<'poll'>, 'id' | 'description'> & { option: Pick<Tables<'option'>, 'id' | 'description'>[] }
+
 export default function AnswerPollForm({ pollId }: AnswerPollFormProps) {
   const [state, formAction, isPending] = useActionState(pollAction, undefined)
+  const [poll, setPoll] = useState<Poll>()
   const [selected, setSelected] = useState<string>()
+
+  useEffect(() => {
+    supabase
+      .from('poll')
+      .select('id, description, option("id", "description")')
+      .then(({ data }) => {
+        if (data?.length) {
+          const [foundPoll] = data
+          setPoll(foundPoll)
+        }
+      })
+  }, [])
+
+  if (!poll) return null
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">

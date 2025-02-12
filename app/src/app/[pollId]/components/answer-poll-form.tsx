@@ -1,23 +1,24 @@
 'use client'
 
 import { useActionState, useState } from "react"
-import { pollAction } from "./actions"
 import { Option } from "@/components/option"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2, Terminal } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { useParams } from "next/navigation"
+import { pollAction } from "../actions"
 
-export default function Page() {
-  const { pollId } = useParams<{ pollId: string }>()
+type AnswerPollFormProps = {
+  pollId: string
+}
+export default function AnswerPollForm({ pollId }: AnswerPollFormProps) {
   const [state, formAction, isPending] = useActionState(pollAction, undefined)
   const [selected, setSelected] = useState<string>()
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <form action={formAction}>
-        <input readOnly name="pollId" value={pollId} />
+        <input className="hidden" readOnly name="pollId" value={pollId} />
         <div className="flex flex-col gap-4">
           {
             state?.errors

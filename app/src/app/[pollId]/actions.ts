@@ -22,7 +22,7 @@ export async function pollAction(state: PollState, formData: FormData) {
       .insert([{
         description,
         student_record: studentRecord,
-        poll_id: pollId
+        poll_id: Number(pollId)
       }])
 
     if (error) {

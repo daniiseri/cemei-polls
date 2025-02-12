@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "supabase-login": "supabase login",
+    "supabase-init": "supabase init",
+    "supabase-types": "rm -rf src/lib/database.types.ts && supabase gen types typescript --project-id fsepqrghdmnowzaprxwx > src/lib/database.types.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
@@ -29,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "postcss": "^8",
+    "supabase": "^2.9.6",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

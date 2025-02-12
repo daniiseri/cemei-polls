@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import { joinPollSchema, JoinPollState } from "./definitions";
 
-export async function joinPollAction(state: JoinPollState, formData: FormData) {
+export async function joinPollAction(_: JoinPollState, formData: FormData) {
   const validatedFields = joinPollSchema.safeParse({
     pollId: formData.get('pollId')
   })
@@ -16,12 +16,12 @@ export async function joinPollAction(state: JoinPollState, formData: FormData) {
   const { pollId } = validatedFields.data
 
   try {
-    const { count } = await supabase
+    const { data } = await supabase
       .from('poll')
       .select('id')
-      .eq('id', pollId)
+      .eq('id', Number(pollId))
 
-    if (!count) {
+    if (!data?.length) {
       return {
         errors: {
           pollId: ['Enquete não encontrada!']
